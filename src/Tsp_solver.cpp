@@ -1,6 +1,5 @@
 #include <iostream>
 #include <format>
-#include "class_def.hpp"
 #include <iostream>
 #include <format>
 #include <chrono>
@@ -10,6 +9,7 @@
 #include <sstream>
 #include <algorithm> 
 #include <numeric>
+#include "class_def.hpp"
 // We ended up including the entire world here, remove useless imports later 
 
 using std::cout;

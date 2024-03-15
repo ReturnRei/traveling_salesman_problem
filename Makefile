@@ -1,7 +1,5 @@
-#CXX = clang++
-CXX = /opt/homebrew/opt/llvm/bin/clang++
-CXXFLAGS = -I/opt/homebrew/opt/llvm/include -g -O3 -march=native -flto -Wall -std=c++20 
-LDFLAGS = -L/opt/homebrew/opt/llvm/lib/c++ -Wl,-rpath,/opt/homebrew/opt/llvm/lib/c++
+CXX = clang++
+CXXFLAGS =  -g -O3 -march=native -flto -Wall -std=c++20 
 SRC = src
 OBJ = obj
 SRCS = $(wildcard $(SRC)/*.cpp) 
@@ -12,7 +10,7 @@ TARGET = $(notdir $(shell basename $(CURDIR)))_$(shell uname)
 GUARD_NAME = __C_FUNCTIONS_HPP__
 TMP = $(SRC)/tmp.hh
 
-all: clean $(TARGET)
+all: $(TARGET)
 
 $(TARGET): $(OBJS)
 	@mkdir -p target
