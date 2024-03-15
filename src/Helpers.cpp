@@ -72,7 +72,6 @@ std::vector<std::vector<int>> Helpers::graph;
 std::vector<std::vector<int>> Helpers::loadGraph(const std::string& filePath) {
     std::ifstream file(filePath);
     if (!file) {
-        // Directly handling the error within the function
         std::cerr << "File not found: " << filePath << std::endl;
         exit(EXIT_FAILURE);
     }

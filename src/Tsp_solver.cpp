@@ -15,8 +15,6 @@
 using std::cout;
 using std::format;
 
-
-
 int TspSolver::naive_bruteforce() {
     if (Helpers::graph.empty() || Helpers::graph[0].empty()) {
         std::cerr << "Graph is empty or not properly loaded.\n";
