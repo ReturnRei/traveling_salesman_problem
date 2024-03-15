@@ -2,15 +2,16 @@ CXX = clang++
 CXXFLAGS =  -g -O3 -march=native -flto -Wall -std=c++20 
 SRC = src
 OBJ = obj
-SRCS = $(wildcard $(SRC)/*.cpp) 
+SRCS = $(wildcard $(SRC)/*.c) $(wildcard $(SRC)/*.cpp) #$(wildcard $(SRC)/*.cpp) 
 OBJS = $(patsubst $(SRC)/%.cpp, $(OBJ)/%.o, $(SRCS))
-HEADER = $(SRC)/c_functions.hpp 
+OBJS := $(patsubst $(SRC)/%.c, $(OBJ)/%.o, $(SRCS))
+HEADER = $(SRC)/c_functions.h 
 TARGET = $(notdir $(shell basename $(CURDIR)))_$(shell uname)
 
-GUARD_NAME = __C_FUNCTIONS_HPP__
+GUARD_NAME = __C_FUNCTIONS_H__
 TMP = $(SRC)/tmp.hh
 
-all: $(TARGET)
+all: clean cproto $(TARGET)
 
 $(TARGET): $(OBJS)
 	@mkdir -p target
@@ -20,17 +21,20 @@ $(OBJ)/%.o: $(SRC)/%.cpp
 	@mkdir -p $(OBJ)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-#cproto not needed here pragma cool
-# cproto: # This is hacky as fuck
-# 	@echo "Generating prototypes..."
-# 	@cproto $(SRC)/c_functions.cpp > $(TMP) 2>/dev/null
-# 	@echo "#ifndef $(GUARD_NAME)" > $(HEADER)
-# 	@echo "#define $(GUARD_NAME)" >> $(HEADER)
-# 	@echo "" >> $(HEADER)	
-# 	@cat $(TMP) >> $(HEADER)
-# 	@echo "" >> $(HEADER)
-# 	@echo "#endif // $(GUARD_NAME)" >> $(HEADER)
-# 	@rm -f $(TMP)
+$(OBJ)/%.o: $(SRC)/%.c
+	$(CXX) $(CFLAGS) -c $< -o $@
+
+#cproto not needed here pragma cool but I still want to fallback to pure C if needed
+cproto: # This is hacky as fuck
+	@echo "Generating prototypes..."
+	@cproto $(SRC)/c_functions.c > $(TMP) 2>/dev/null
+	@echo "#ifndef $(GUARD_NAME)" > $(HEADER)
+	@echo "#define $(GUARD_NAME)" >> $(HEADER)
+	@echo "" >> $(HEADER)	
+	@cat $(TMP) >> $(HEADER)
+	@echo "" >> $(HEADER)
+	@echo "#endif // $(GUARD_NAME)" >> $(HEADER)
+	@rm -f $(TMP)
 
 clean:
 	rm -rf $(OBJ)/* #target/*
