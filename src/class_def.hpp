@@ -23,20 +23,19 @@ private:
         std::function<void()> action;
     };
     static std::vector<Option> options;
-    static std::string formatTime(std::chrono::seconds duration);
+    static std::string formatTime(std::chrono::duration<long, std::ratio<1l, 1l> > duration);
     static void initializeOptions();
 
 };
 
 
-class ActualImplementation {
+class TspSolver {
 // Class will go through renaming
 /*
 Here will the actual tsp implementation go 
 Ici il y a l'implementation, ou au moins la declaration des fonctions pour compute tsp
 */
 
-    int cval = 4; // This is completely useless was just a test to see compability with C 
 public:
     static int naive_bruteforce();
     static int second_implementation();
