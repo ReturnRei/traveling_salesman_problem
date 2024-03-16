@@ -51,7 +51,7 @@ int TspSolver::naive_bruteforce() {
 }
 
 int TspSolver::second_implementation(){
-auto string_to_print {"Class function being called\tNow sleeping\n"}; //Lulz we already have kind of a race I'm a skiddy
+auto string_to_print {"Class function being called\tNow sleeping\n"}; //Needed to flush stdout buffer
 cout << string_to_print;
 std::this_thread::sleep_for(std::chrono::seconds(6));
 return 0;
