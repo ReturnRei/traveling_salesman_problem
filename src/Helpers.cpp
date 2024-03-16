@@ -18,7 +18,7 @@ void Helpers::initializeOptions() {
     options = {
         {"Display matrix", &Helpers::displayMatrix},
         {"Naive Approach (bruteforce)", &TspSolver::naive_bruteforce},
-        {"Compute it in another way", &TspSolver::second_implementation},
+        {"Multithreaded Naive approach", &TspSolver::naive_bruteforce_multithreaded},
         {"Exit", [](){}}
     };
 }

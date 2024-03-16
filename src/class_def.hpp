@@ -4,6 +4,9 @@
 #include <functional>
 #include <vector>
 #include <chrono>
+#include <vector>
+#include <atomic>
+#include <mutex>
 
 class Helpers {
 
@@ -31,6 +34,13 @@ private:
 class TspSolver {
 
 public:
+static void naive_bruteforce_multithreaded(); // Declaration of the multithreaded method
+
+    // Static members for shared state across threads
+    static std::atomic<int> minDistance;
+    static std::vector<int> minPath;
+    static std::mutex minPathMutex;
+    static std::mutex coutMutex;
     static int naive_bruteforce();
     static int second_implementation();
 };
