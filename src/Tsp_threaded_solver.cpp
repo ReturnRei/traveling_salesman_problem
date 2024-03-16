@@ -18,7 +18,8 @@ void TspSolver::naive_bruteforce_multithreaded() {
     std::vector<int> cities(numCities);
     std::iota(cities.begin(), cities.end(), 0);
 
-    const size_t numThreads = 18;
+    const size_t numThreads = std::thread::hardware_concurrency() - 2;
+    std::cout << "Running with threads n: " << numThreads << std::endl;
     std::vector<std::thread> threads;
     std::vector<int> localMinDistances(numThreads, INT_MAX); // Local minimums for each thread
     std::vector<std::vector<int>> localMinPaths(numThreads); // Local paths for each thread
