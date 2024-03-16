@@ -35,7 +35,7 @@ int TspSolver::naive_bruteforce() {
             if (currentDistance >= minDistance) {
                 int currMinBlocked = i;
                 if (currMinBlocked < minBlocked) {
-                //cout << "Blocked loop " << i << " as current distance " << currentDistance << " is greater than min distance " << minDistance << "\n";
+                cout << "Blocked loop " << i << " as current distance " << currentDistance << " is greater than min distance " << minDistance << "\n";
                 minBlocked = i;
                 }
                 break;

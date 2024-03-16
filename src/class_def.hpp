@@ -21,8 +21,11 @@ private:
     static std::vector<Option> options;
     static std::string formatTime(std::chrono::duration<long, std::ratio<1l, 1l> > duration);
     static void initializeOptions();
-
+    static std::vector<std::vector<int>> loadTxtFile(const std::string& filePath); // For loading .txt files
+    static std::vector<std::vector<int>> loadTspFile(const std::string& filePath); // For loading .tsp files
+    static int calculateDistance(float x1, float y1, float x2, float y2); // Helper for calculating distances
 };
+
 
 
 class TspSolver {

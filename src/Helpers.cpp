@@ -1,20 +1,16 @@
 #include <iostream>
 #include <format>
-#include <iostream>
-#include <format>
 #include <chrono>
-#include <thread>
 #include <stdexcept>
 #include <fstream>
 #include <sstream>
-#include <algorithm> 
-#include <numeric>
+#include <vector>
+#include <cmath>
+#include <filesystem>
 #include "class_def.hpp"
 
 using std::cout;
 using std::format;
-
-
 
 std::vector<Helpers::Option> Helpers::options;
 
@@ -28,7 +24,7 @@ void Helpers::initializeOptions() {
 }
 
 void Helpers::displayMenu() {
-    initializeOptions(); 
+    initializeOptions();
 
     bool exitRequested = false;
     while (!exitRequested) {
@@ -58,7 +54,8 @@ void Helpers::displayMenu() {
         }
     }
 }
-std::string Helpers::formatTime(std::chrono::duration<long, std::ratio<1l, 1l> > duration) {
+
+std::string Helpers::formatTime(std::chrono::duration<long, std::ratio<1l, 1l>> duration) {
     auto hours = duration.count() / 3600;
     auto minutes = (duration.count() % 3600) / 60;
     auto seconds = duration.count() % 60;
@@ -66,10 +63,23 @@ std::string Helpers::formatTime(std::chrono::duration<long, std::ratio<1l, 1l> >
     return std::format("{} hour(s) {} minute(s) {} second(s)", hours, minutes, seconds);
 }
 
-
 std::vector<std::vector<int>> Helpers::graph;
 
 std::vector<std::vector<int>> Helpers::loadGraph(const std::string& filePath) {
+    std::string extension = std::filesystem::path(filePath).extension().string();
+    std::transform(extension.begin(), extension.end(), extension.begin(), ::tolower); // Ensure extension is lowercase
+
+    if (extension == ".tsp") {
+        return loadTspFile(filePath);
+    } else if (extension == ".txt") {
+        return loadTxtFile(filePath);
+    } else {
+        std::cerr << "Unsupported file format: " << filePath << std::endl;
+        exit(EXIT_FAILURE);
+    }
+}
+
+std::vector<std::vector<int>> Helpers::loadTxtFile(const std::string& filePath) {
     std::ifstream file(filePath);
     if (!file) {
         std::cerr << "File not found: " << filePath << std::endl;
@@ -77,24 +87,66 @@ std::vector<std::vector<int>> Helpers::loadGraph(const std::string& filePath) {
     }
 
     std::vector<std::vector<int>> matrix;
-    int value;
     std::string line;
+    int value;
 
-    try {
-        while (std::getline(file, line)) {
-            std::vector<int> row;
-            std::istringstream iss(line);
-            while (iss >> value) {
-                row.push_back(value);
-            }
-            matrix.push_back(row);
+    while (std::getline(file, line)) {
+        std::vector<int> row;
+        std::istringstream iss(line);
+        while (iss >> value) {
+            row.push_back(value);
         }
-    } catch (const std::exception& e) {
-        std::cerr << "An error occurred: " << e.what() << std::endl;
-        exit(EXIT_FAILURE);
+        matrix.push_back(row);
     }
 
     return matrix;
+}
+
+std::vector<std::vector<int>> Helpers::loadTspFile(const std::string& filePath) {
+    std::ifstream file(filePath);
+    if (!file) {
+        std::cerr << "File not found: " << filePath << std::endl;
+        exit(EXIT_FAILURE);
+    }
+
+    std::vector<std::pair<float, float>> coordinates; // Store node coordinates
+    std::string line;
+    bool nodeSection = false;
+
+    while (std::getline(file, line)) {
+        if (line.find("NODE_COORD_SECTION") != std::string::npos) {
+            nodeSection = true;
+            continue;
+        }
+
+        if (nodeSection) {
+            if (line.find("EOF") != std::string::npos) break;
+            std::istringstream iss(line);
+            int id;
+            float x, y;
+            if (!(iss >> id >> x >> y)) break; // Handle parsing failure
+            coordinates.emplace_back(x, y);
+        }
+    }
+
+    int numNodes = coordinates.size();
+    std::vector<std::vector<int>> matrix(numNodes, std::vector<int>(numNodes));
+
+    for (int i = 0; i < numNodes; ++i) {
+        for (int j = 0; j < numNodes; ++j) {
+            if (i == j) {
+                matrix[i][j] = 0;
+            } else {
+                matrix[i][j] = calculateDistance(coordinates[i].first, coordinates[i].second, coordinates[j].first, coordinates[j].second);
+            }
+        }
+    }
+
+    return matrix;
+}
+
+int Helpers::calculateDistance(float x1, float y1, float x2, float y2) {
+    return static_cast<int>(std::round(std::sqrt(std::pow(x2 - x1, 2) + std::pow(y2 - y1, 2))));
 }
 
 void Helpers::displayMatrix() {
