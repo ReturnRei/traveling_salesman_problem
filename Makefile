@@ -24,6 +24,7 @@ $(OBJ)/%.o: $(SRC)/%.cpp
 	$(CXX) -c $< -o $@
 
 $(OBJ)/%.o: $(SRC)/%.c
+	@mkdir -p $(OBJ)
 	$(C) $(CFLAGS) -c $< -o $@
 
 #cproto not needed here pragma is cool but I still want to fallback to pure C if needed
