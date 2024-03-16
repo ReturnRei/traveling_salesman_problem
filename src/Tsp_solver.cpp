@@ -27,16 +27,25 @@ int TspSolver::naive_bruteforce() {
 
     int minDistance = std::numeric_limits<int>::max();
     std::vector<int> minPath;
-
+    int minBlocked = std::numeric_limits<int>::max();
     do {
         int currentDistance = 0;
         for (size_t i = 0; i < numCities - 1; ++i) {
             currentDistance += Helpers::graph[cities[i]][cities[i + 1]];
+            if (currentDistance >= minDistance) {
+                int currMinBlocked = i;
+                if (currMinBlocked < minBlocked) {
+                cout << "Blocked loop " << i << " as current distance " << currentDistance << " is greater than min distance " << minDistance << "\n";
+                minBlocked = i;
+                }
+                break;
+            }
         }
         currentDistance += Helpers::graph[cities[numCities - 1]][cities[0]];
 
         if (currentDistance < minDistance) {
             minDistance = currentDistance;
+            cout << "Current minimal distance: " << minDistance << "\n"; 
             minPath = cities;
         }
     } while (std::next_permutation(cities.begin() + 1, cities.end()));

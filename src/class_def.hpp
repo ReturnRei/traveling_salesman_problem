@@ -9,7 +9,7 @@ class Helpers {
 
 public:
     static std::vector<std::vector<int>> graph; // 2D Vector, C++ syntax is quite barbaric IMO
-    static std::vector<std::vector<int>> loadGraph(const std::string& filePath = "./graph.txt");
+    static std::vector<std::vector<int>> loadGraph(const std::string& filePath = "./graph.txt"); // So thats the default one
     static void displayMenu();
     static void displayMatrix();
 
