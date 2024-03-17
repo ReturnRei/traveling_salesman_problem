@@ -1,2 +1,5 @@
 obj/*
+target/*
+tmp/*
+.vscode/*
 .DS_Store

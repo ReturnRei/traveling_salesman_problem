@@ -1,34 +1,32 @@
 #include <iostream>
 #include <format>
-#include <iostream>
-#include <format>
 #include <chrono>
-#include <thread>
 #include <stdexcept>
 #include <fstream>
 #include <sstream>
-#include <algorithm> 
-#include <numeric>
+#include <vector>
+#include <cmath>
+#include <filesystem>
 #include "class_def.hpp"
 
 using std::cout;
 using std::format;
-
-
 
 std::vector<Helpers::Option> Helpers::options;
 
 void Helpers::initializeOptions() {
     options = {
         {"Display matrix", &Helpers::displayMatrix},
-        {"Naive Approach (bruteforce)", &TspSolver::naive_bruteforce},
-        {"Compute it in another way", &TspSolver::second_implementation},
+        {"Single threaded bruteforce", &TspSolver::naive_bruteforce},
+        {"Multithreaded bruteforce", &TspSolver::naive_bruteforce_multithreaded},
+        {"Dynamic solver", &TspSolver::dynamic_solver},
+        {"Run tests", &Helpers::runTests},
         {"Exit", [](){}}
     };
 }
 
 void Helpers::displayMenu() {
-    initializeOptions(); 
+    initializeOptions();
 
     bool exitRequested = false;
     while (!exitRequested) {
@@ -58,7 +56,8 @@ void Helpers::displayMenu() {
         }
     }
 }
-std::string Helpers::formatTime(std::chrono::duration<long, std::ratio<1l, 1l> > duration) {
+
+std::string Helpers::formatTime(std::chrono::duration<long, std::ratio<1l, 1l>> duration) {
     auto hours = duration.count() / 3600;
     auto minutes = (duration.count() % 3600) / 60;
     auto seconds = duration.count() % 60;
@@ -66,10 +65,21 @@ std::string Helpers::formatTime(std::chrono::duration<long, std::ratio<1l, 1l> >
     return std::format("{} hour(s) {} minute(s) {} second(s)", hours, minutes, seconds);
 }
 
-
 std::vector<std::vector<int>> Helpers::graph;
 
 std::vector<std::vector<int>> Helpers::loadGraph(const std::string& filePath) {
+    std::string extension = std::filesystem::path(filePath).extension().string();
+    std::transform(extension.begin(), extension.end(), extension.begin(), ::tolower);
+
+    if (extension == ".txt") {
+        return loadTxtFile(filePath);
+    } else {
+        std::cerr << "Unsupported file format: " << filePath << std::endl;
+        exit(EXIT_FAILURE);
+    }
+}
+
+std::vector<std::vector<int>> Helpers::loadTxtFile(const std::string& filePath) {
     std::ifstream file(filePath);
     if (!file) {
         std::cerr << "File not found: " << filePath << std::endl;
@@ -77,24 +87,23 @@ std::vector<std::vector<int>> Helpers::loadGraph(const std::string& filePath) {
     }
 
     std::vector<std::vector<int>> matrix;
-    int value;
     std::string line;
+    int value;
 
-    try {
-        while (std::getline(file, line)) {
-            std::vector<int> row;
-            std::istringstream iss(line);
-            while (iss >> value) {
-                row.push_back(value);
-            }
-            matrix.push_back(row);
+    while (std::getline(file, line)) {
+        std::vector<int> row;
+        std::istringstream iss(line);
+        while (iss >> value) {
+            row.push_back(value);
         }
-    } catch (const std::exception& e) {
-        std::cerr << "An error occurred: " << e.what() << std::endl;
-        exit(EXIT_FAILURE);
+        matrix.push_back(row);
     }
 
     return matrix;
+}
+
+void Helpers::setMemoryGraph(const std::vector<std::vector<int>>& newGraph) {
+    graph = newGraph;
 }
 
 void Helpers::displayMatrix() {
