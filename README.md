@@ -1,7 +1,9 @@
 # Traveling salesman project poc for 0x41γων C++ intro course
 
-
-NB: The standard format for tsp problems is `.tsp` [which includes a documentation written here]()
+NB: The standard format for tsp problems is `.tsp` [which includes a documentation written here](http://comopt.ifi.uni-heidelberg.de/software/TSPLIB95/tsp95.pdf)
+To read every subformat I would've needed to import the lib or write something that would've added complexity to the program.
+I opted for a simple python script to transform some of the `.tsp` formats to simple matrices in a text file.
+The program will refuse to compute anything that is not a n*n matrix with 0 along the diagonal.
 
 ### Results and conclusions
 ##### Exact answers
