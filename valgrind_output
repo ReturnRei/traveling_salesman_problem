@@ -1,95 +1,103 @@
-==2094== Memcheck, a memory error detector
-==2094== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
-==2094== Using Valgrind-3.20.0-5147d671e4-20221024 and LibVEX; rerun with -h for copyright info
-==2094== Command: ./tsp_Linux_aarch64
-==2094== 
---2094-- Valgrind options:
---2094--    --leak-check=full
---2094--    --show-leak-kinds=all
---2094--    --track-origins=yes
---2094--    --verbose
---2094-- Contents of /proc/version:
---2094--   Linux version 6.6.9-arm64 (devel@kali.org) (gcc-13 (Debian 13.2.0-9) 13.2.0, GNU ld (GNU Binutils for Debian) 2.41.50.20231227) #1 SMP Kali 6.6.9-1kali1 (2024-01-08)
---2094-- 
---2094-- Arch and hwcaps: ARM64, LittleEndian, v8-fhm-dpbcvadp-sha3-rdm-atomics-fp16-vfp16
---2094-- Page sizes: currently 4096, max supported 65536
---2094-- Valgrind library directory: /usr/libexec/valgrind
---2094-- Reading syms from /home/rei/shares/tsp/tsp_Linux_aarch64
---2094-- Reading syms from /usr/lib/aarch64-linux-gnu/ld-linux-aarch64.so.1
---2094--   Considering /usr/lib/debug/.build-id/65/beabffba8dc9cab560b4338b8b0d568d21c964.debug ..
---2094--   .. build-id is valid
---2094-- Reading syms from /usr/libexec/valgrind/memcheck-arm64-linux
---2094--    object doesn't have a symbol table
---2094--    object doesn't have a dynamic symbol table
---2094-- Scheduler: using generic scheduler lock implementation.
---2094-- Reading suppressions file: /usr/libexec/valgrind/default.supp
-==2094== embedded gdbserver: reading from /tmp/vgdb-pipe-from-vgdb-to-2094-by-rei-on-???
-==2094== embedded gdbserver: writing to   /tmp/vgdb-pipe-to-vgdb-from-2094-by-rei-on-???
-==2094== embedded gdbserver: shared mem   /tmp/vgdb-pipe-shared-mem-vgdb-2094-by-rei-on-???
-==2094== 
-==2094== TO CONTROL THIS PROCESS USING vgdb (which you probably
-==2094== don't want to do, unless you know exactly what you're doing,
-==2094== or are doing some strange experiment):
-==2094==   /usr/bin/vgdb --pid=2094 ...command...
-==2094== 
-==2094== TO DEBUG THIS PROCESS USING GDB: start GDB like this
-==2094==   /path/to/gdb ./tsp_Linux_aarch64
-==2094== and then give GDB the following command
-==2094==   target remote | /usr/bin/vgdb --pid=2094
-==2094== --pid is optional if only one valgrind process is running
-==2094== 
---2094-- REDIR: 0x401c0c0 (ld-linux-aarch64.so.1:strlen) redirected to 0x580bd37c (???)
---2094-- REDIR: 0x401b800 (ld-linux-aarch64.so.1:strcmp) redirected to 0x580bd3d0 (???)
---2094-- REDIR: 0x401b740 (ld-linux-aarch64.so.1:index) redirected to 0x580bd3a4 (???)
---2094-- Reading syms from /usr/libexec/valgrind/vgpreload_core-arm64-linux.so
---2094--    object doesn't have a symbol table
---2094-- Reading syms from /usr/libexec/valgrind/vgpreload_memcheck-arm64-linux.so
---2094--    object doesn't have a symbol table
---2094-- Reading syms from /usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.33
---2094--    object doesn't have a symbol table
---2094-- Reading syms from /usr/lib/aarch64-linux-gnu/libm.so.6
---2094--   Considering /usr/lib/debug/.build-id/e3/28a24f08c137d5d84b805d862b3a33caf798c6.debug ..
---2094--   .. build-id is valid
---2094-- Reading syms from /usr/lib/aarch64-linux-gnu/libgcc_s.so.1
---2094--    object doesn't have a symbol table
---2094-- Reading syms from /usr/lib/aarch64-linux-gnu/libc.so.6
---2094--   Considering /usr/lib/debug/.build-id/48/f3d12d430570028b66e2a79f35301ce4e67254.debug ..
---2094--   .. build-id is valid
-==2094== WARNING: new redirection conflicts with existing -- ignoring it
---2094--     old: 0x04ca2674 (memalign            ) R-> (1011.0) 0x0488ac00 memalign
---2094--     new: 0x04ca2674 (memalign            ) R-> (1017.0) 0x0488abd4 aligned_alloc
-==2094== WARNING: new redirection conflicts with existing -- ignoring it
---2094--     old: 0x04ca2674 (memalign            ) R-> (1011.0) 0x0488ac00 memalign
---2094--     new: 0x04ca2674 (memalign            ) R-> (1017.0) 0x0488abb0 aligned_alloc
-==2094== WARNING: new redirection conflicts with existing -- ignoring it
---2094--     old: 0x04ca2674 (memalign            ) R-> (1011.0) 0x0488ac00 memalign
---2094--     new: 0x04ca2674 (memalign            ) R-> (1017.0) 0x0488abd4 aligned_alloc
-==2094== WARNING: new redirection conflicts with existing -- ignoring it
---2094--     old: 0x04ca2674 (memalign            ) R-> (1011.0) 0x0488ac00 memalign
---2094--     new: 0x04ca2674 (memalign            ) R-> (1017.0) 0x0488abb0 aligned_alloc
---2094-- REDIR: 0x4ca5260 (libc.so.6:memchr) redirected to 0x4850710 (_vgnU_ifunc_wrapper)
---2094-- REDIR: 0x4ca8890 (libc.so.6:strlen) redirected to 0x4850710 (_vgnU_ifunc_wrapper)
---2094-- REDIR: 0x4ca8dc0 (libc.so.6:rindex) redirected to 0x488b370 (rindex)
---2094-- REDIR: 0x4ca5e40 (libc.so.6:memset) redirected to 0x4850710 (_vgnU_ifunc_wrapper)
---2094-- REDIR: 0x4cad4c0 (libc.so.6:__GI_memset) redirected to 0x488f880 (memset)
---2094-- REDIR: 0x4cad900 (libc.so.6:__GI_strlen) redirected to 0x488b9f0 (__GI_strlen)
---2094-- REDIR: 0x4ca52c0 (libc.so.6:bcmp) redirected to 0x488eff0 (bcmp)
---2094-- REDIR: 0x4ca8a24 (libc.so.6:strncmp) redirected to 0x488c190 (strncmp)
---2094-- REDIR: 0x4ca1560 (libc.so.6:malloc) redirected to 0x4885140 (malloc)
---2094-- REDIR: 0x4979820 (libstdc++.so.6:operator new(unsigned long)) redirected to 0x48858f0 (operator new(unsigned long))
---2094-- REDIR: 0x4ca5c30 (libc.so.6:memmove) redirected to 0x4850710 (_vgnU_ifunc_wrapper)
---2094-- REDIR: 0x4cac440 (libc.so.6:__GI_memmove) redirected to 0x488fc70 (__GI_memmove)
---2094-- REDIR: 0x4977480 (libstdc++.so.6:operator delete(void*)) redirected to 0x4888390 (operator delete(void*))
---2094-- REDIR: 0x4ca5490 (libc.so.6:memcpy) redirected to 0x4850710 (_vgnU_ifunc_wrapper)
---2094-- REDIR: 0x4cac300 (libc.so.6:__GI_memcpy) redirected to 0x488d840 (__GI_memcpy)
---2094-- REDIR: 0x4cabb00 (libc.so.6:__GI_memchr) redirected to 0x488cd90 (__GI_memchr)
---2094-- REDIR: 0x4ca27a0 (libc.so.6:calloc) redirected to 0x488a510 (calloc)
---2094-- REDIR: 0x4ca1d04 (libc.so.6:free) redirected to 0x4887d60 (free)
-==2094== 
-==2094== HEAP SUMMARY:
-==2094==     in use at exit: 0 bytes in 0 blocks
-==2094==   total heap usage: 93 allocs, 93 frees, 79,642 bytes allocated
-==2094== 
-==2094== All heap blocks were freed -- no leaks are possible
-==2094== 
-==2094== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==3720== Memcheck, a memory error detector
+==3720== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==3720== Using Valgrind-3.20.0-5147d671e4-20221024 and LibVEX; rerun with -h for copyright info
+==3720== Command: ./tsp_Linux_aarch64
+==3720== 
+--3720-- Valgrind options:
+--3720--    --leak-check=full
+--3720--    --show-leak-kinds=all
+--3720--    --track-origins=yes
+--3720--    --verbose
+--3720-- Contents of /proc/version:
+--3720--   Linux version 6.6.9-arm64 (devel@kali.org) (gcc-13 (Debian 13.2.0-9) 13.2.0, GNU ld (GNU Binutils for Debian) 2.41.50.20231227) #1 SMP Kali 6.6.9-1kali1 (2024-01-08)
+--3720-- 
+--3720-- Arch and hwcaps: ARM64, LittleEndian, v8-fhm-dpbcvadp-sha3-rdm-atomics-fp16-vfp16
+--3720-- Page sizes: currently 4096, max supported 65536
+--3720-- Valgrind library directory: /usr/libexec/valgrind
+--3720-- Reading syms from /home/rei/shares/tsp/tsp_Linux_aarch64
+--3720-- Reading syms from /usr/lib/aarch64-linux-gnu/ld-linux-aarch64.so.1
+--3720--   Considering /usr/lib/debug/.build-id/65/beabffba8dc9cab560b4338b8b0d568d21c964.debug ..
+--3720--   .. build-id is valid
+--3720-- Reading syms from /usr/libexec/valgrind/memcheck-arm64-linux
+--3720--    object doesn't have a symbol table
+--3720--    object doesn't have a dynamic symbol table
+--3720-- Scheduler: using generic scheduler lock implementation.
+--3720-- Reading suppressions file: /usr/libexec/valgrind/default.supp
+==3720== embedded gdbserver: reading from /tmp/vgdb-pipe-from-vgdb-to-3720-by-rei-on-???
+==3720== embedded gdbserver: writing to   /tmp/vgdb-pipe-to-vgdb-from-3720-by-rei-on-???
+==3720== embedded gdbserver: shared mem   /tmp/vgdb-pipe-shared-mem-vgdb-3720-by-rei-on-???
+==3720== 
+==3720== TO CONTROL THIS PROCESS USING vgdb (which you probably
+==3720== don't want to do, unless you know exactly what you're doing,
+==3720== or are doing some strange experiment):
+==3720==   /usr/bin/vgdb --pid=3720 ...command...
+==3720== 
+==3720== TO DEBUG THIS PROCESS USING GDB: start GDB like this
+==3720==   /path/to/gdb ./tsp_Linux_aarch64
+==3720== and then give GDB the following command
+==3720==   target remote | /usr/bin/vgdb --pid=3720
+==3720== --pid is optional if only one valgrind process is running
+==3720== 
+--3720-- REDIR: 0x401c0c0 (ld-linux-aarch64.so.1:strlen) redirected to 0x580bd37c (???)
+--3720-- REDIR: 0x401b800 (ld-linux-aarch64.so.1:strcmp) redirected to 0x580bd3d0 (???)
+--3720-- REDIR: 0x401b740 (ld-linux-aarch64.so.1:index) redirected to 0x580bd3a4 (???)
+--3720-- Reading syms from /usr/libexec/valgrind/vgpreload_core-arm64-linux.so
+--3720--    object doesn't have a symbol table
+--3720-- Reading syms from /usr/libexec/valgrind/vgpreload_memcheck-arm64-linux.so
+--3720--    object doesn't have a symbol table
+--3720-- Reading syms from /usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.33
+--3720--    object doesn't have a symbol table
+--3720-- Reading syms from /usr/lib/aarch64-linux-gnu/libm.so.6
+--3720--   Considering /usr/lib/debug/.build-id/e3/28a24f08c137d5d84b805d862b3a33caf798c6.debug ..
+--3720--   .. build-id is valid
+--3720-- Reading syms from /usr/lib/aarch64-linux-gnu/libgcc_s.so.1
+--3720--    object doesn't have a symbol table
+--3720-- Reading syms from /usr/lib/aarch64-linux-gnu/libc.so.6
+--3720--   Considering /usr/lib/debug/.build-id/48/f3d12d430570028b66e2a79f35301ce4e67254.debug ..
+--3720--   .. build-id is valid
+==3720== WARNING: new redirection conflicts with existing -- ignoring it
+--3720--     old: 0x04ca2674 (memalign            ) R-> (1011.0) 0x0488ac00 memalign
+--3720--     new: 0x04ca2674 (memalign            ) R-> (1017.0) 0x0488abd4 aligned_alloc
+==3720== WARNING: new redirection conflicts with existing -- ignoring it
+--3720--     old: 0x04ca2674 (memalign            ) R-> (1011.0) 0x0488ac00 memalign
+--3720--     new: 0x04ca2674 (memalign            ) R-> (1017.0) 0x0488abb0 aligned_alloc
+==3720== WARNING: new redirection conflicts with existing -- ignoring it
+--3720--     old: 0x04ca2674 (memalign            ) R-> (1011.0) 0x0488ac00 memalign
+--3720--     new: 0x04ca2674 (memalign            ) R-> (1017.0) 0x0488abd4 aligned_alloc
+==3720== WARNING: new redirection conflicts with existing -- ignoring it
+--3720--     old: 0x04ca2674 (memalign            ) R-> (1011.0) 0x0488ac00 memalign
+--3720--     new: 0x04ca2674 (memalign            ) R-> (1017.0) 0x0488abb0 aligned_alloc
+--3720-- REDIR: 0x4ca5260 (libc.so.6:memchr) redirected to 0x4850710 (_vgnU_ifunc_wrapper)
+--3720-- REDIR: 0x4ca8890 (libc.so.6:strlen) redirected to 0x4850710 (_vgnU_ifunc_wrapper)
+--3720-- REDIR: 0x4ca8dc0 (libc.so.6:rindex) redirected to 0x488b370 (rindex)
+--3720-- REDIR: 0x4ca5e40 (libc.so.6:memset) redirected to 0x4850710 (_vgnU_ifunc_wrapper)
+--3720-- REDIR: 0x4cad4c0 (libc.so.6:__GI_memset) redirected to 0x488f880 (memset)
+--3720-- REDIR: 0x4cad900 (libc.so.6:__GI_strlen) redirected to 0x488b9f0 (__GI_strlen)
+--3720-- REDIR: 0x4ca52c0 (libc.so.6:bcmp) redirected to 0x488eff0 (bcmp)
+--3720-- REDIR: 0x4ca8a24 (libc.so.6:strncmp) redirected to 0x488c190 (strncmp)
+--3720-- REDIR: 0x4ca1560 (libc.so.6:malloc) redirected to 0x4885140 (malloc)
+--3720-- REDIR: 0x4979820 (libstdc++.so.6:operator new(unsigned long)) redirected to 0x48858f0 (operator new(unsigned long))
+--3720-- REDIR: 0x4ca5c30 (libc.so.6:memmove) redirected to 0x4850710 (_vgnU_ifunc_wrapper)
+--3720-- REDIR: 0x4cac440 (libc.so.6:__GI_memmove) redirected to 0x488fc70 (__GI_memmove)
+--3720-- REDIR: 0x4977480 (libstdc++.so.6:operator delete(void*)) redirected to 0x4888390 (operator delete(void*))
+--3720-- REDIR: 0x4ca5490 (libc.so.6:memcpy) redirected to 0x4850710 (_vgnU_ifunc_wrapper)
+--3720-- REDIR: 0x4cac300 (libc.so.6:__GI_memcpy) redirected to 0x488d840 (__GI_memcpy)
+--3720-- REDIR: 0x4cabb00 (libc.so.6:__GI_memchr) redirected to 0x488cd90 (__GI_memchr)
+--3720-- REDIR: 0x49774a0 (libstdc++.so.6:operator delete(void*, unsigned long)) redirected to 0x4888650 (operator delete(void*, unsigned long))
+--3720-- REDIR: 0x4ca1d04 (libc.so.6:free) redirected to 0x4887d60 (free)
+File not found: ./graph.txt
+--3720-- REDIR: 0x4cad7c0 (libc.so.6:__strlen_asimd) redirected to 0x488b9c0 (strlen)
+--3720-- REDIR: 0x4ca6d40 (libc.so.6:strcmp) redirected to 0x488cb74 (strcmp)
+Failed to load primary graph: Matrix is empty.
+--3720-- REDIR: 0x4ca27a0 (libc.so.6:calloc) redirected to 0x488a510 (calloc)
+--3720-- REDIR: 0x4ca95f0 (libc.so.6:strstr) redirected to 0x4890c10 (strstr)
+--3720-- REDIR: 0x49798e0 (libstdc++.so.6:operator new[](unsigned long)) redirected to 0x4886cd0 (operator new[](unsigned long))
+--3720-- REDIR: 0x49774e0 (libstdc++.so.6:operator delete[](void*)) redirected to 0x4889570 (operator delete[](void*))
+==3720== 
+==3720== HEAP SUMMARY:
+==3720==     in use at exit: 0 bytes in 0 blocks
+==3720==   total heap usage: 131,789 allocs, 131,789 frees, 12,257,396 bytes allocated
+==3720== 
+==3720== All heap blocks were freed -- no leaks are possible
+==3720== 
+==3720== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
