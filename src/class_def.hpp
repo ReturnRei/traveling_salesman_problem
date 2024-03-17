@@ -17,6 +17,7 @@ public:
     static std::vector<std::vector<int>> loadGraph(const std::string& filePath = "./graph.txt"); // So thats the default one
     static void displayMenu();
     static void displayMatrix();
+    static void promptUserToChooseGraph();
 
 private:
     struct Option {
@@ -28,6 +29,7 @@ private:
     static void initializeOptions();
     static std::vector<std::vector<int>> loadTxtFile(const std::string& filePath);
     static void validateMatrix(const std::vector<std::vector<int>>& matrix);
+    static std::vector<std::string> listTxtFiles(const std::string& directoryPath);
 };
 
 

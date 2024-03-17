@@ -7,6 +7,7 @@
 #include <vector>
 #include <cmath>
 #include <filesystem>
+#include <filesystem>
 #include "class_def.hpp"
 
 using std::cout;
@@ -21,6 +22,7 @@ void Helpers::initializeOptions() {
         {"Multithreaded bruteforce", [](){TspSolver::naive_bruteforce_multithreaded(nullptr);}},
         {"Dynamic solver", [](){TspSolver::dynamic_solver(nullptr);}},
         {"Run tests", &Helpers::runTests},
+        {"Chose another graph", &Helpers::promptUserToChooseGraph},
         {"Exit", [](){}}
     };
 }
@@ -101,6 +103,44 @@ std::vector<std::vector<int>> Helpers::loadTxtFile(const std::string& filePath) 
     }
     validateMatrix(matrix);
     return matrix;
+}
+
+std::vector<std::string> Helpers::listTxtFiles(const std::string& directoryPath) {
+    std::vector<std::string> files;
+    for (const auto& entry : std::filesystem::directory_iterator(directoryPath)) {
+        if (entry.path().extension() == ".txt") {
+            files.push_back(entry.path().filename().string());
+        }
+    }
+    return files;
+}
+
+void Helpers::promptUserToChooseGraph() {
+    const std::string directoryPath = "./graphs";
+    auto files = Helpers::listTxtFiles(directoryPath);
+
+    if (files.empty()) {
+        std::cerr << "No .txt files found in the directory: " << directoryPath << std::endl;
+        return;
+    }
+
+    std::cout << "Please select a graph to load:\n";
+    for (size_t i = 0; i < files.size(); ++i) {
+        std::cout << i + 1 << ": " << files[i] << "\n";
+    }
+
+    std::cout << "Enter your choice (number): ";
+    size_t choice;
+    std::cin >> choice;
+    
+    if (choice < 1 || choice > files.size()) {
+        std::cerr << "Invalid choice. Please try again.\n";
+        return;
+    }
+
+    std::string selectedFile = directoryPath + "/" + files[choice - 1];
+    //std::cout << selectedFile << "\n";
+    Helpers::graph = Helpers::loadGraph(selectedFile);
 }
 
 void Helpers::setMemoryGraph(const std::vector<std::vector<int>>& newGraph) {
