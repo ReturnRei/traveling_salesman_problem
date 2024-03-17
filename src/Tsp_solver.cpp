@@ -19,10 +19,9 @@ using std::format;
 
 std::mutex TspSolver::coutMutex;
 
-int TspSolver::naive_bruteforce() {
+int* TspSolver::naive_bruteforce() {
     if (Helpers::graph.empty() || Helpers::graph[0].empty()) {
         std::cerr << "Graph is empty or not properly loaded.\n";
-        return -1;
     }
 
     size_t numCities = Helpers::graph.size();
@@ -60,15 +59,16 @@ int TspSolver::naive_bruteforce() {
         std::cout << static_cast<char>('A' + city) << " ";
     }
     std::cout << static_cast<char>('A' + minPath.front()) << std::endl;
+    int* minDistancePtr = new int(minDistance);
 
-    return 0;
+    return minDistancePtr;
 }
 
 std::atomic<int> TspSolver::minDistance{INT_MAX};
 std::vector<int> TspSolver::minPath;
 std::mutex TspSolver::minPathMutex;
 
-void TspSolver::naive_bruteforce_multithreaded() {
+int* TspSolver::naive_bruteforce_multithreaded() {
     size_t numCities = Helpers::graph.size();
     std::vector<int> cities(numCities);
     std::iota(cities.begin(), cities.end(), 0);
@@ -135,17 +135,19 @@ void TspSolver::naive_bruteforce_multithreaded() {
         std::cout << static_cast<char>('A' + city) << " ";
     }
     std::cout << "\n";
+    int* minDistancePtr = new int(minDistance);
+    return minDistancePtr;
 }
 
 
 
 /* Dynamic solver */
-int TspSolver::dynamic_solver() {
+int* TspSolver::dynamic_solver() {
     std::lock_guard<std::mutex> lock(coutMutex);
 
     if (Helpers::graph.empty() || Helpers::graph[0].empty()) {
         std::cerr << "Graph is empty or not properly loaded.\n";
-        return -1; 
+        //return -1; 
     }
 
     size_t numCities = Helpers::graph.size();
@@ -188,5 +190,6 @@ int TspSolver::dynamic_solver() {
     // }
     // std::cout << std::endl;
 
-    return 0;
+    int* minDistancePtr = new int(minDistance);
+    return minDistancePtr;
 }
