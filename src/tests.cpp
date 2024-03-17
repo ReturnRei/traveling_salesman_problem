@@ -13,7 +13,6 @@ const std::vector<std::vector<int>> five = {
 };
 
 
-
 /* Run tests on one matrix */
 setMemoryGraph(five);
 displayMatrix();
@@ -25,7 +24,13 @@ TspSolver::dynamic_solver();
 std::cout << "Ran tests for matrix five";
 
 // Another iteration
-Helpers::graph = Helpers::loadGraph("tests/burma14_distance_matrix.txt"); 
+Helpers::graph = Helpers::loadGraph("graphs/gr17.txt"); 
+displayMatrix();
+TspSolver::dynamic_solver();
+
+
+// Another iteration
+Helpers::graph = Helpers::loadGraph("graphs/gr24.txt"); 
 displayMatrix();
 TspSolver::dynamic_solver();
 }

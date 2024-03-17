@@ -27,6 +27,7 @@ private:
     static std::string formatTime(std::chrono::duration<long, std::ratio<1l, 1l> > duration);
     static void initializeOptions();
     static std::vector<std::vector<int>> loadTxtFile(const std::string& filePath);
+    static void validateMatrix(const std::vector<std::vector<int>>& matrix);
 };
 
 

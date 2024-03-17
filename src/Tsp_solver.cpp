@@ -28,15 +28,15 @@ int TspSolver::naive_bruteforce() {
     std::vector<int> cities(numCities);
     std::iota(cities.begin(), cities.end(), 0);
 
-    //int minDistance = std::numeric_limits<int>::max();
-    std::vector<int> minPath;
     //int minBlocked = std::numeric_limits<int>::max();
+    int minDistance = std::numeric_limits<int>::max();
+    std::vector<int> minPath;
     do {
         int currentDistance = 0;
         for (size_t i = 0; i < numCities - 1; ++i) {
             currentDistance += Helpers::graph[cities[i]][cities[i + 1]];
             if (currentDistance >= minDistance) {
-                int currMinBlocked = i;
+  //              int currMinBlocked = i;
         /* Attempted optimization, most likely barely useful in terms of efficiency */
         //         if (currMinBlocked < minBlocked) {
         //         cout << "Blocked loop " << i << " as current distance " << currentDistance << " is greater than min distance " << minDistance << "\n";
@@ -131,7 +131,7 @@ void TspSolver::naive_bruteforce_multithreaded() {
 
     std::cout << "Final minimum distance: " << minDistance.load() << "\nPath: ";
     for (auto city : minPath) {
-        std::cout << city << " ";
+        std::cout << static_cast<char>('A' + city) << " ";
     }
     std::cout << "\n";
 }
@@ -177,16 +177,15 @@ int TspSolver::dynamic_solver() {
         return ans;
     };
 
-    TspSolver::minDistance = tsp(0, 1); // Use TspSolver:: to clarify static member access
+    TspSolver::minDistance = tsp(0, 1); 
 
-    // Path reconstruction omitted for brevity. It should follow a similar logic to your naive_bruteforce
 
-    // Note: For thread-safe cout operations, wrap this block with {std::lock_guard<std::mutex> lock(coutMutex);}
-    std::cout << "Minimum distance: " << minDistance.load() << "\nPath: ";
-    for (int city : TspSolver::minPath) {
-        std::cout << static_cast<char>('A' + city) << " ";
-    }
-    std::cout << std::endl;
+    std::cout << "Minimum distance: " << minDistance.load() << "\n";
+    // Path reconstruction not implemented for dynamic
+    // for (int city : TspSolver::minPath) {
+    //     std::cout << static_cast<char>('A' + city) << " ";
+    // }
+    // std::cout << std::endl;
 
     return 0;
 }

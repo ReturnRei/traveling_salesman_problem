@@ -5,7 +5,16 @@
 
 
 int main(int argc, char* argv[]){
-  Helpers::graph = Helpers::loadGraph("graphs/fri26.txt");
+  //Helpers::graph = Helpers::loadGraph("graphs/fri26.txt");
+  const std::vector<std::vector<int>> five = {
+    {0, 3, 4, 2, 7},
+    {3, 0, 4, 6, 3},
+    {4, 4, 0, 5, 8},
+    {2, 6, 5, 0, 6},
+    {7, 3, 8, 6, 0}
+};
+
+  Helpers::setMemoryGraph(five);
   Helpers::displayMenu();
   return 0;
 }

@@ -98,11 +98,12 @@ std::vector<std::vector<int>> Helpers::loadTxtFile(const std::string& filePath) 
         }
         matrix.push_back(row);
     }
-
+    validateMatrix(matrix);
     return matrix;
 }
 
 void Helpers::setMemoryGraph(const std::vector<std::vector<int>>& newGraph) {
+    validateMatrix(newGraph);
     graph = newGraph;
 }
 
@@ -115,4 +116,24 @@ void Helpers::displayMatrix() {
         cout << "\n";
     }
     cout << "\n";
+}
+
+void Helpers::validateMatrix(const std::vector<std::vector<int>>& matrix) {
+    size_t numRows = matrix.size();
+
+    if (numRows == 0) {
+        throw std::invalid_argument("Matrix is empty.");
+    }
+
+    for (const auto& row : matrix) {
+        if (row.size() != numRows) {
+            throw std::invalid_argument("Matrix is not square.");
+        }
+    }
+
+    for (size_t i = 0; i < numRows; ++i) {
+        if (matrix[i][i] != 0) {
+            throw std::invalid_argument("Diagonal is not made of zeroes.");
+        }
+    }
 }
