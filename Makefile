@@ -1,7 +1,7 @@
 # TLDR We generate an executable based on the directory name, operating system name and architecture. 
 CXX = clang++
 C = clang
-CXXFLAGS =  -g -O3 -march=native -flto -Wall -std=c++20 
+CXXFLAGS =  -O3 -march=native -flto -Wall -std=c++20 
 SRC = src
 OBJ = obj
 SRCS = $(wildcard $(SRC)/*.c) $(wildcard $(SRC)/*.cpp)
@@ -17,7 +17,7 @@ all: clean cproto $(TARGET)
 
 $(TARGET): $(OBJS)
 	@mkdir -p target
-	$(CXX) $(CXXFLAGS) -o target/$@ $(OBJS)
+	$(CXX) $(CXXFLAGS) -o $@ $(OBJS)
 
 $(OBJ)/%.o: $(SRC)/%.cpp
 	@mkdir -p $(OBJ)
