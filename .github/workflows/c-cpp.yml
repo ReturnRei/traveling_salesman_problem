@@ -13,11 +13,19 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - name: Install Clang 17
+      run: |
+        wget https://apt.llvm.org/llvm.sh
+        chmod +x llvm.sh
+        sudo ./llvm.sh 17
+        sudo apt-get update
+        sudo apt-get install -y clang-17 lldb-17 lld-17
+        clang-17 --version # Verify the installed version
     - name: install_deps
       run: |
         sudo apt-get update
-        sudo apt-get -y install cproto clang
+        sudo apt-get -y install cproto
     - name: Check Clang Version
       run: clang++ --version
     - name: make
-      run: make
+      run: make CC=clang-17 CXX=clang++-17
