@@ -17,8 +17,10 @@ std::vector<Helpers::Option> Helpers::options;
 void Helpers::initializeOptions() {
     options = {
         {"Display matrix", &Helpers::displayMatrix},
-        {"Naive Approach (bruteforce)", &TspSolver::naive_bruteforce},
-        {"Multithreaded Naive approach", &TspSolver::naive_bruteforce_multithreaded},
+        {"Single threaded bruteforce", &TspSolver::naive_bruteforce},
+        {"Multithreaded bruteforce", &TspSolver::naive_bruteforce_multithreaded},
+        {"Dynamic solver", &TspSolver::dynamic_solver},
+        {"Run tests", &Helpers::runTests},
         {"Exit", [](){}}
     };
 }
@@ -67,11 +69,9 @@ std::vector<std::vector<int>> Helpers::graph;
 
 std::vector<std::vector<int>> Helpers::loadGraph(const std::string& filePath) {
     std::string extension = std::filesystem::path(filePath).extension().string();
-    std::transform(extension.begin(), extension.end(), extension.begin(), ::tolower); // Ensure extension is lowercase
+    std::transform(extension.begin(), extension.end(), extension.begin(), ::tolower);
 
-    if (extension == ".tsp") {
-        return loadTspFile(filePath);
-    } else if (extension == ".txt") {
+    if (extension == ".txt") {
         return loadTxtFile(filePath);
     } else {
         std::cerr << "Unsupported file format: " << filePath << std::endl;
@@ -102,51 +102,8 @@ std::vector<std::vector<int>> Helpers::loadTxtFile(const std::string& filePath) 
     return matrix;
 }
 
-std::vector<std::vector<int>> Helpers::loadTspFile(const std::string& filePath) {
-    std::ifstream file(filePath);
-    if (!file) {
-        std::cerr << "File not found: " << filePath << std::endl;
-        exit(EXIT_FAILURE);
-    }
-
-    std::vector<std::pair<float, float>> coordinates; // Store node coordinates
-    std::string line;
-    bool nodeSection = false;
-
-    while (std::getline(file, line)) {
-        if (line.find("NODE_COORD_SECTION") != std::string::npos) {
-            nodeSection = true;
-            continue;
-        }
-
-        if (nodeSection) {
-            if (line.find("EOF") != std::string::npos) break;
-            std::istringstream iss(line);
-            int id;
-            float x, y;
-            if (!(iss >> id >> x >> y)) break; // Handle parsing failure
-            coordinates.emplace_back(x, y);
-        }
-    }
-
-    int numNodes = coordinates.size();
-    std::vector<std::vector<int>> matrix(numNodes, std::vector<int>(numNodes));
-
-    for (int i = 0; i < numNodes; ++i) {
-        for (int j = 0; j < numNodes; ++j) {
-            if (i == j) {
-                matrix[i][j] = 0;
-            } else {
-                matrix[i][j] = calculateDistance(coordinates[i].first, coordinates[i].second, coordinates[j].first, coordinates[j].second);
-            }
-        }
-    }
-
-    return matrix;
-}
-
-int Helpers::calculateDistance(float x1, float y1, float x2, float y2) {
-    return static_cast<int>(std::round(std::sqrt(std::pow(x2 - x1, 2) + std::pow(y2 - y1, 2))));
+void Helpers::setMemoryGraph(const std::vector<std::vector<int>>& newGraph) {
+    graph = newGraph;
 }
 
 void Helpers::displayMatrix() {
