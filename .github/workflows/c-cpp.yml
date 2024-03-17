@@ -16,6 +16,8 @@ jobs:
     - name: install_deps
       run: |
         sudo apt-get update
-        sudo apt-get -y install cproto
+        sudo apt-get -y install cproto clang
+    - name: Check Clang Version
+      run: clang++ --version
     - name: make
       run: make
