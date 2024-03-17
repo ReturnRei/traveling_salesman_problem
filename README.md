@@ -1,47 +1,46 @@
 # Traveling salesman project poc for 0x41γων C++ intro course
 
-### Take into account
-- [x] The starting node doesn't matter any valid route will touch all the cities
-- Don't overcount ie possibilities are less than (n-1)! for bruteforce but (n-1)!/2
 
-### Results
+NB: The standard format for tsp problems is `.tsp` [which includes a documentation written here]()
 
-For this matrix with size 15 and optimal result 242
+### Results and conclusions
+##### Exact answers
+Only bruteforce and dynamic programming give exact results, the rest are approximation (that can be really close to the original with various optimisations)
+Multithread results are highly impacted by the amount of syncs one does.
+Bruteforce whether single or multithreaded can solve easily up to 15/16 cities, at just 17 cities we can see that it took 14 hours with 22 threads whilst running instantly with the same result with dynamic programming.
+Also I was able to solve fri26 (26 cities) in 14 minute(s) 33 second(s) whilst it would've taken too long(?) for the bruteforce approach.
+
+For a matrix with size 15 and optimal result 242
 - Bruteforce single threaded: 7 minute(s) 54 second(s)
 - Bruteforce multi threaded 16 threads:  3 minute(s) 32 second(s)
 - Bruteforce multi threaded 6 threads:  4 minute(s) 4 second(s)
 
-``` TOML
-[Matrix]
-0 10 20 30 40 50 60 70 80 90 25 35 45 55 65
-10 0 15 25 35 45 55 65 75 85 95 20 30 40 50
-20 15 0 18 28 38 48 58 68 78 88 23 33 43 53
-30 25 18 0 14 24 34 44 54 64 74 29 39 49 59
-40 35 28 14 0 16 26 36 46 56 66 19 13 23 33
-50 45 38 24 16 0 12 22 32 42 52 17 27 37 47
-60 55 48 34 26 12 0 11 21 31 41 15 25 35 45
-70 65 58 44 36 22 11 0 13 23 33 18 28 38 48
-80 75 68 54 46 32 21 13 0 17 27 14 24 34 44
-90 85 78 64 56 42 31 23 17 0 19 12 22 32 42
-25 95 88 74 66 52 41 33 27 19 0 10 20 30 40
-35 20 23 29 19 17 15 18 14 12 10 0 11 21 31
-45 30 33 39 13 27 25 28 24 22 20 11 0 12 22
-55 40 43 49 23 37 35 38 34 32 30 21 12 0 16
-65 50 53 59 33 47 45 48 44 42 40 31 22 16 0
-```
+17x17
+gr17 : 2085
 
-Multithread results are highly impacted by the amount of syncs one does 
+Running with threads n: 22
+Final minimum distance: 2085
+Path: 0 3 12 6 7 5 16 13 14 2 10 9 1 4 8 11 15
+Execution time: 14 hour(s) 18 minute(s) 29 second(s)
 
-### TODO 
+Using dynamic solver
+Minimum distance: 2085
+Execution time: 0 hour(s) 0 minute(s) 0 second(s)
+
+26x26 matrix (fri26)
+Minimum distance: 937
+Path:
+Execution time: 0 hour(s) 14 minute(s) 33 second(s)
+
+#### Approximation algorithms
+Didn't implement these..
+
+### TODO
 - [] Tests to avoid regressions when trying to optimize
-- [x] multithread 
-- [] Other implementation(s)
+- [x] multithread
+- [x] implement dynamic programming
+- [] implement approximation algorithms
 
-
-### Assumptions
-
-#### For bruteforce we need to assume
-- Symmetric TSP
-
-#### If we take another approach we might need to assume
-- Triangle inequality
+### Resources 
+Forgot to include everything but these were really useful
+https://cse442-17f.github.io/Traveling-Salesman-Algorithms/
