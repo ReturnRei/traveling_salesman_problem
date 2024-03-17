@@ -17,13 +17,14 @@ std::vector<Helpers::Option> Helpers::options;
 void Helpers::initializeOptions() {
     options = {
         {"Display matrix", &Helpers::displayMatrix},
-        {"Single threaded bruteforce", &TspSolver::naive_bruteforce},
-        {"Multithreaded bruteforce", &TspSolver::naive_bruteforce_multithreaded},
-        {"Dynamic solver", &TspSolver::dynamic_solver},
+        {"Single threaded bruteforce", [](){TspSolver::naive_bruteforce(nullptr);} },
+        {"Multithreaded bruteforce", [](){TspSolver::naive_bruteforce_multithreaded(nullptr);}},
+        {"Dynamic solver", [](){TspSolver::dynamic_solver(nullptr);}},
         {"Run tests", &Helpers::runTests},
         {"Exit", [](){}}
     };
 }
+
 
 void Helpers::displayMenu() {
     initializeOptions();

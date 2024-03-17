@@ -19,7 +19,7 @@ using std::format;
 
 std::mutex TspSolver::coutMutex;
 
-int* TspSolver::naive_bruteforce() {
+void TspSolver::naive_bruteforce(int* resultPtr) {
     if (Helpers::graph.empty() || Helpers::graph[0].empty()) {
         std::cerr << "Graph is empty or not properly loaded.\n";
     }
@@ -59,16 +59,19 @@ int* TspSolver::naive_bruteforce() {
         std::cout << static_cast<char>('A' + city) << " ";
     }
     std::cout << static_cast<char>('A' + minPath.front()) << std::endl;
-    int* minDistancePtr = new int(minDistance);
+    // int* minDistancePtr = new int(minDistance);
 
-    return minDistancePtr;
+    // return minDistancePtr;
+            if (resultPtr != nullptr) {
+        *resultPtr = minDistance;
+    }
 }
 
 std::atomic<int> TspSolver::minDistance{INT_MAX};
 std::vector<int> TspSolver::minPath;
 std::mutex TspSolver::minPathMutex;
 
-int* TspSolver::naive_bruteforce_multithreaded() {
+void TspSolver::naive_bruteforce_multithreaded(int* resultPtr) {
     size_t numCities = Helpers::graph.size();
     std::vector<int> cities(numCities);
     std::iota(cities.begin(), cities.end(), 0);
@@ -135,14 +138,17 @@ int* TspSolver::naive_bruteforce_multithreaded() {
         std::cout << static_cast<char>('A' + city) << " ";
     }
     std::cout << "\n";
-    int* minDistancePtr = new int(minDistance);
-    return minDistancePtr;
+    // int* minDistancePtr = new int(minDistance);
+    // return minDistancePtr;
+            if (resultPtr != nullptr) {
+        *resultPtr = minDistance;
+    }
 }
 
 
 
 /* Dynamic solver */
-int* TspSolver::dynamic_solver() {
+void TspSolver::dynamic_solver(int* resultPtr) {
     std::lock_guard<std::mutex> lock(coutMutex);
 
     if (Helpers::graph.empty() || Helpers::graph[0].empty()) {
@@ -190,6 +196,9 @@ int* TspSolver::dynamic_solver() {
     // }
     // std::cout << std::endl;
 
-    int* minDistancePtr = new int(minDistance);
-    return minDistancePtr;
+    // int* minDistancePtr = new int(minDistance);
+    // return minDistancePtr;
+        if (resultPtr != nullptr) {
+        *resultPtr = minDistance;
+    }
 }
