@@ -13,5 +13,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - name: install_deps
+      run: |
+        sudo apt-get -y install cproto
     - name: make
       run: make
