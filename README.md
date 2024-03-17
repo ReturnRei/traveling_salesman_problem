@@ -7,10 +7,11 @@ The program will refuse to compute anything that is not a n*n matrix with 0 alon
 
 ### Results and conclusions
 ##### Exact answers
-Only bruteforce and dynamic programming give exact results, the rest are approximation (that can be really close to the original with various optimisations)
-Multithread results are highly impacted by the amount of syncs one does.
+Only bruteforce and dynamic programming give exact results, the rest are approximation (that can be really close to the original with various optimisations). 
+Multithread results are highly impacted by the amount of syncs one does.  
+
 Bruteforce whether single or multithreaded can solve easily up to 15/16 cities, at just 17 cities we can see that it took 14 hours with 22 threads whilst running instantly with the same result with dynamic programming.
-Also I was able to solve fri26 (26 cities) in 14 minute(s) 33 second(s) whilst it would've taken too long(?) for the bruteforce approach.
+I could solve fri26 with the dynamic approach (26 cities) in 14 minute(s) 33 second(s) whilst it would've taken too long(?) for the bruteforce approach.
 
 For a matrix with size 15 and optimal result 242
 - Bruteforce single threaded: 7 minute(s) 54 second(s)
@@ -38,11 +39,11 @@ Execution time: 0 hour(s) 14 minute(s) 33 second(s)
 Didn't implement these..
 
 ### TODO
-- [] Tests to avoid regressions when trying to optimize
+- [ ] Tests to avoid regressions when trying to optimize
 - [x] multithread
 - [x] implement dynamic programming
-- [] implement approximation algorithms
+- [ ] implement approximation algorithms
 
 ### Resources 
-Forgot to include everything but these were really useful
+Forgot to include everything but these were really useful  
 https://cse442-17f.github.io/Traveling-Salesman-Algorithms/
