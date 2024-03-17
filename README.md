@@ -3,7 +3,7 @@
 NB: The standard format for tsp problems is `.tsp` [which includes a documentation written here](http://comopt.ifi.uni-heidelberg.de/software/TSPLIB95/tsp95.pdf)
 To read every subformat I would've needed to import the lib or write something that would've added complexity to the program.
 I opted for a simple python script to transform some of the `.tsp` formats to simple matrices in a text file.
-The program will refuse to compute anything that is not a n*n matrix with 0 along the diagonal.
+The program will refuse to compute anything that is not a n*n matrix with 0 along the diagonal. TODO!(to implement)
 
 ### Results and conclusions
 ##### Exact answers
@@ -47,3 +47,9 @@ Didn't implement these..
 ### Resources 
 Forgot to include everything but these were really useful  
 https://cse442-17f.github.io/Traveling-Salesman-Algorithms/
+
+Results for knowns tsp 
+http://comopt.ifi.uni-heidelberg.de/software/TSPLIB95/STSP.html
+
+Wiki of course 
+https://en.wikipedia.org/wiki/Travelling_salesman_problem
