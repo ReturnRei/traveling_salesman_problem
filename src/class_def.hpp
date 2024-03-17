@@ -39,7 +39,7 @@ public:
     static std::vector<int> minPath;
     static std::mutex minPathMutex;
     static std::mutex coutMutex;
-    static void naive_bruteforce_multithreaded(); 
-    static int naive_bruteforce();
-    static int dynamic_solver();
+    static int* naive_bruteforce_multithreaded(); 
+    static int* naive_bruteforce();
+    static int* dynamic_solver();
 };

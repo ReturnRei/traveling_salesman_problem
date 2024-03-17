@@ -1,6 +1,8 @@
 #include "class_def.hpp"
 #include <vector>
 #include <iostream>
+#include <cassert>
+#include <cstdlib>
 
 void Helpers::runTests(){
 
@@ -15,22 +17,25 @@ const std::vector<std::vector<int>> five = {
 
 /* Run tests on one matrix */
 setMemoryGraph(five);
-displayMatrix();
-TspSolver::naive_bruteforce();
-TspSolver::naive_bruteforce_multithreaded();
-TspSolver::dynamic_solver();
-// Assert etc 
-
-std::cout << "Ran tests for matrix five";
-
-// Another iteration
-Helpers::graph = Helpers::loadGraph("graphs/gr17.txt"); 
-displayMatrix();
-TspSolver::dynamic_solver();
-
-
-// Another iteration
-Helpers::graph = Helpers::loadGraph("graphs/gr24.txt"); 
-displayMatrix();
-TspSolver::dynamic_solver();
+try {
+    int* minDistance = TspSolver::naive_bruteforce();
+    assert(*minDistance == 19);
+    std::cout << "Assert for " << *minDistance << " succeded\n";
+    //minDistance = nullptr; so this would've leaked!
+    delete minDistance;
+    minDistance = TspSolver::naive_bruteforce_multithreaded();
+    assert(*minDistance == 19);
+    std::cout << "Assert for " << *minDistance << " succeded\n";
+    delete minDistance;
+    minDistance = TspSolver::dynamic_solver();
+    assert(*minDistance == 19);
+    std::cout << "Assert for " << *minDistance << " succeded\n";
+    delete minDistance;
+} catch (const std::bad_alloc& e) {
+    std::cerr << "Memory allocation failed: " << e.what() << std::endl;
+} catch (const std::runtime_error& e) {
+    std::cerr << "Runtime error: " << e.what() << std::endl;
+} catch (const std::exception& e) {
+    std::cerr << "An unexpected error occurred: " << e.what() << std::endl;
+}
 }
