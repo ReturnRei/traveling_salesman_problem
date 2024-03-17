@@ -14,14 +14,13 @@ int main(int argc, char* argv[]){
     {7, 3, 8, 6, 0}
 };
     try {
-        Helpers::graph = Helpers::loadGraph("graphs/fri26.txt");
+        Helpers::graph = Helpers::loadGraph("./graph.txt");
         std::cout << "Successfully loaded primary graph." << std::endl;
     } catch (const std::exception& e) {
         std::cerr << "Failed to load primary graph: " << e.what() << std::endl;
         std::cout << "Loading fallback graph." << std::endl;
         Helpers::setMemoryGraph(five);
     }
-
 
   Helpers::displayMenu();
   return 0;
