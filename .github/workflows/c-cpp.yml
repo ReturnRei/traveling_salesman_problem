@@ -29,3 +29,33 @@ jobs:
       run: clang++ --version
     - name: make
       run: make CC=clang-17 CXX=clang++-17
+
+    - name: Archive production artifacts
+      if: success()
+      uses: actions/upload-artifact@v3
+      with:
+        name: Traveling_salesman_problem
+        path: ./traveling_salesman_problem_Linux_x86_64
+
+    - name: Create Release
+      if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: $(date +'%Y%m%d%H%M%S')
+        release_name: Release $(date +'%Y-%m-%d %H:%M:%S')
+        draft: false
+        prerelease: false
+
+    - name: Upload Release Asset
+      if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./traveling_salesman_problem_Linux_x86_64
+        asset_name: Traveling_salesman_problem
+        asset_content_type: application/octet-stream
