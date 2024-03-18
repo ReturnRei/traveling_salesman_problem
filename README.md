@@ -33,7 +33,7 @@ Running with threads n: 22
 Didn't implement these..
 
 ### TODO
-- [ ] Tests to avoid regressions when trying to optimize
+- [x] Tests to avoid regressions when trying to optimize
 - [x] multithread
 - [x] implement dynamic programming
 - [ ] implement approximation algorithms
