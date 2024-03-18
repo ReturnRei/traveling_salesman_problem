@@ -23,33 +23,25 @@ void TspSolver::naive_bruteforce(int* resultPtr) {
     if (Helpers::graph.empty() || Helpers::graph[0].empty()) {
         std::cerr << "Graph is empty or not properly loaded.\n";
     }
-
+        if (Helpers::graph[0].size() > 15) {
+        std::cout << "Cowardly refusing to compute for a day, use size < 16 or use the dynamic approach\n";
+        return;
+    }
     size_t numCities = Helpers::graph.size();
     std::vector<int> cities(numCities);
     std::iota(cities.begin(), cities.end(), 0);
 
-    //int minBlocked = std::numeric_limits<int>::max();
     int minDistance = std::numeric_limits<int>::max();
     std::vector<int> minPath;
     do {
         int currentDistance = 0;
         for (size_t i = 0; i < numCities - 1; ++i) {
             currentDistance += Helpers::graph[cities[i]][cities[i + 1]];
-            if (currentDistance >= minDistance) {
-  //              int currMinBlocked = i;
-        /* Attempted optimization, most likely barely useful in terms of efficiency */
-        //         if (currMinBlocked < minBlocked) {
-        //         cout << "Blocked loop " << i << " as current distance " << currentDistance << " is greater than min distance " << minDistance << "\n";
-        //         minBlocked = i;
-        //         }
-        //         break;
-             }
          }
-        currentDistance += Helpers::graph[cities[numCities - 1]][cities[0]];
+       currentDistance += Helpers::graph[cities[numCities - 1]][cities[0]];
 
         if (currentDistance < minDistance) {
             minDistance = currentDistance;
-            //cout << "Current minimal distance: " << minDistance << "\n"; 
             minPath = cities;
         }
     } while (std::next_permutation(cities.begin() + 1, cities.end()));
@@ -59,10 +51,7 @@ void TspSolver::naive_bruteforce(int* resultPtr) {
         std::cout << static_cast<char>('A' + city) << " ";
     }
     std::cout << static_cast<char>('A' + minPath.front()) << std::endl;
-    // int* minDistancePtr = new int(minDistance);
-
-    // return minDistancePtr;
-            if (resultPtr != nullptr) {
+    if (resultPtr != nullptr) {
         *resultPtr = minDistance;
     }
 }
@@ -72,6 +61,10 @@ std::vector<int> TspSolver::minPath;
 std::mutex TspSolver::minPathMutex;
 
 void TspSolver::naive_bruteforce_multithreaded(int* resultPtr) {
+    if (Helpers::graph[0].size() > 15) {
+        std::cout << "Cowardly refusing to compute for a day, use size < 16 or use the dynamic approach\n";
+        return;
+    }
     size_t numCities = Helpers::graph.size();
     std::vector<int> cities(numCities);
     std::iota(cities.begin(), cities.end(), 0);
@@ -98,7 +91,6 @@ void TspSolver::naive_bruteforce_multithreaded(int* resultPtr) {
 
         do {
             if(currentPermutation >= endPermutation) break; 
-
             int distance = 0;
             for (size_t i = 0; i < numCities - 1; ++i) {
                 distance += Helpers::graph[localPath[i]][localPath[i + 1]];
@@ -138,22 +130,17 @@ void TspSolver::naive_bruteforce_multithreaded(int* resultPtr) {
         std::cout << static_cast<char>('A' + city) << " ";
     }
     std::cout << "\n";
-    // int* minDistancePtr = new int(minDistance);
-    // return minDistancePtr;
             if (resultPtr != nullptr) {
         *resultPtr = minDistance;
     }
 }
 
-
-
-/* Dynamic solver */
 void TspSolver::dynamic_solver(int* resultPtr) {
     std::lock_guard<std::mutex> lock(coutMutex);
 
     if (Helpers::graph.empty() || Helpers::graph[0].empty()) {
         std::cerr << "Graph is empty or not properly loaded.\n";
-        //return -1; 
+        return; 
     }
 
     size_t numCities = Helpers::graph.size();
@@ -191,13 +178,7 @@ void TspSolver::dynamic_solver(int* resultPtr) {
 
     std::cout << "Minimum distance: " << minDistance.load() << "\n";
     // Path reconstruction not implemented for dynamic
-    // for (int city : TspSolver::minPath) {
-    //     std::cout << static_cast<char>('A' + city) << " ";
-    // }
-    // std::cout << std::endl;
 
-    // int* minDistancePtr = new int(minDistance);
-    // return minDistancePtr;
         if (resultPtr != nullptr) {
         *resultPtr = minDistance;
     }
