@@ -1,6 +1,5 @@
 #include <iostream>
 #include "class_def.hpp"
-#include "c_functions.h"
 #include <thread>
 
 
