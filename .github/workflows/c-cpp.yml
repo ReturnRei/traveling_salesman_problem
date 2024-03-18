@@ -44,6 +44,7 @@ jobs:
 
     - name: Create Release
       if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+      id: create_release
       uses: actions/create-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -52,3 +53,15 @@ jobs:
         release_name: Release-${{ env.DATE }}
         draft: false
         prerelease: false
+
+
+    - name: Upload Release Asset
+      if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./traveling_salesman_problem_Linux_x86_64
+        asset_name: Traveling_salesman_problem
+        asset_content_type: application/octet-stream
