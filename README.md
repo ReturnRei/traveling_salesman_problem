@@ -7,9 +7,9 @@ I opted for a simple python script to transform some of the `.tsp` formats to si
 The program will refuse to compute anything that is not a n*n matrix with 0 along the diagonal.
 
 ### Results and conclusions
-##### Exact answers
-Only bruteforce and dynamic programming give exact results, the rest are approximation (that can be really close to the original with various optimisations). 
-Multithread results are highly impacted by the amount of syncs one does.  
+#### Exact answers
+Only bruteforce and dynamic programming give exact results, the rest are approximation (that can be really close to the original with various optimisations).
+Multithread results are highly impacted by the amount of syncs one does.
 
 Bruteforce whether single or multithreaded can solve easily up to 15/16 cities, at just 17 cities we can see that it took 14 hours with 22 threads whilst running instantly with the same result with dynamic programming.
 I could solve fri26 with the dynamic approach (26 cities) in 14 minute(s) 33 second(s) whilst it would've taken too long(?) for the bruteforce approach.
@@ -38,12 +38,12 @@ Didn't implement these..
 - [x] implement dynamic programming
 - [ ] implement approximation algorithms
 
-### Resources 
-Forgot to include everything but these were really useful  
+### Resources
+Forgot to include everything but these were really useful
 https://cse442-17f.github.io/Traveling-Salesman-Algorithms/
 
-Results for knowns tsp 
+Results for knowns tsp
 http://comopt.ifi.uni-heidelberg.de/software/TSPLIB95/STSP.html
 
-Wiki of course 
+Wiki of course
 https://en.wikipedia.org/wiki/Travelling_salesman_problem
