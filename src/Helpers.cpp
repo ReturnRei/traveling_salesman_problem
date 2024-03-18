@@ -91,7 +91,6 @@ std::vector<std::vector<int>> Helpers::loadTxtFile(const std::string& filePath) 
     std::ifstream file(filePath);
     if (!file) {
         std::cerr << "File not found: " << filePath << std::endl;
-        //exit(EXIT_FAILURE);
     }
 
     std::vector<std::vector<int>> matrix;

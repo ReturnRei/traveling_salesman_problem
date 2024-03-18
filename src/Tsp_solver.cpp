@@ -37,10 +37,8 @@ void TspSolver::naive_bruteforce(int* resultPtr) {
         int currentDistance = 0;
         for (size_t i = 0; i < numCities - 1; ++i) {
             currentDistance += Helpers::graph[cities[i]][cities[i + 1]];
-            if (currentDistance >= minDistance) {
-             }
          }
-        currentDistance += Helpers::graph[cities[numCities - 1]][cities[0]];
+       currentDistance += Helpers::graph[cities[numCities - 1]][cities[0]];
 
         if (currentDistance < minDistance) {
             minDistance = currentDistance;
@@ -53,7 +51,7 @@ void TspSolver::naive_bruteforce(int* resultPtr) {
         std::cout << static_cast<char>('A' + city) << " ";
     }
     std::cout << static_cast<char>('A' + minPath.front()) << std::endl;
-            if (resultPtr != nullptr) {
+    if (resultPtr != nullptr) {
         *resultPtr = minDistance;
     }
 }
@@ -93,7 +91,6 @@ void TspSolver::naive_bruteforce_multithreaded(int* resultPtr) {
 
         do {
             if(currentPermutation >= endPermutation) break; 
-
             int distance = 0;
             for (size_t i = 0; i < numCities - 1; ++i) {
                 distance += Helpers::graph[localPath[i]][localPath[i + 1]];
@@ -181,10 +178,6 @@ void TspSolver::dynamic_solver(int* resultPtr) {
 
     std::cout << "Minimum distance: " << minDistance.load() << "\n";
     // Path reconstruction not implemented for dynamic
-    // for (int city : TspSolver::minPath) {
-    //     std::cout << static_cast<char>('A' + city) << " ";
-    // }
-    // std::cout << std::endl;
 
         if (resultPtr != nullptr) {
         *resultPtr = minDistance;
