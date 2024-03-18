@@ -13,11 +13,9 @@ class Helpers {
 public:
     static void runTests();
     static void setMemoryGraph(const std::vector<std::vector<int>>& newGraph);
-    static std::vector<std::vector<int>> graph; // 2D Vector, C++ syntax is quite barbaric IMO
-    static std::vector<std::vector<int>> loadGraph(const std::string& filePath = "./graph.txt"); // So thats the default one
+    static std::vector<std::vector<int>> graph; 
+    static std::vector<std::vector<int>> loadGraph(const std::string& filePath = "./graph.txt");
     static void displayMenu();
-    static void displayMatrix();
-    static void promptUserToChooseGraph();
 
 private:
     struct Option {
@@ -30,6 +28,8 @@ private:
     static std::vector<std::vector<int>> loadTxtFile(const std::string& filePath);
     static void validateMatrix(const std::vector<std::vector<int>>& matrix);
     static std::vector<std::string> listTxtFiles(const std::string& directoryPath);
+    static void displayMatrix();
+    static void promptUserToChooseGraph();
 };
 
 
@@ -37,11 +37,13 @@ private:
 class TspSolver {
 
 public:
+    static void naive_bruteforce_multithreaded(int* resultPtr = nullptr); 
+    static void naive_bruteforce(int* resultPtr = nullptr);
+    static void dynamic_solver(int* resultPtr = nullptr);
+
+private:
     static std::atomic<int> minDistance;
     static std::vector<int> minPath;
     static std::mutex minPathMutex;
     static std::mutex coutMutex;
-    static void naive_bruteforce_multithreaded(int* resultPtr = nullptr); 
-    static void naive_bruteforce(int* resultPtr = nullptr);
-    static void dynamic_solver(int* resultPtr = nullptr);
 };

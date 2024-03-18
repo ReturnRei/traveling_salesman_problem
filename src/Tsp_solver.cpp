@@ -18,6 +18,9 @@ using std::cout;
 using std::format;
 
 std::mutex TspSolver::coutMutex;
+std::atomic<int> TspSolver::minDistance{INT_MAX};
+std::vector<int> TspSolver::minPath;
+std::mutex TspSolver::minPathMutex;
 
 void TspSolver::naive_bruteforce(int* resultPtr) {
     if (Helpers::graph.empty() || Helpers::graph[0].empty()) {
@@ -56,9 +59,6 @@ void TspSolver::naive_bruteforce(int* resultPtr) {
     }
 }
 
-std::atomic<int> TspSolver::minDistance{INT_MAX};
-std::vector<int> TspSolver::minPath;
-std::mutex TspSolver::minPathMutex;
 
 void TspSolver::naive_bruteforce_multithreaded(int* resultPtr) {
     if (Helpers::graph[0].size() > 15) {
