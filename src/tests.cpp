@@ -15,14 +15,18 @@ const std::vector<std::vector<int>> five = {
 };
 
 
-/* Run tests on one matrix */
+/* 
+C++ provides enough abstraction so that I didn't really need to think about memory.
+Here I am using raw pointers (althought there's the new and delete cpp operators).
+It is done on purpose so I could look at what happens in valgrind.
+*/
+
 setMemoryGraph(five);
 try {
     int* minDistance = new int;
     TspSolver::naive_bruteforce(minDistance);
     assert(*minDistance == 19);
     std::cout << "Assert for " << *minDistance << " succeded\n";
-    //minDistance = nullptr; so this would've leaked!
     TspSolver::naive_bruteforce_multithreaded(minDistance);
     assert(*minDistance == 19);
     std::cout << "Assert for " << *minDistance << " succeded\n";

@@ -1,6 +1,6 @@
 # TLDR We generate an executable based on the directory name, operating system name and architecture. 
 CXX = clang++
-CXXFLAGS = -std=c++20  -O3 -march=native -flto -Wall 
+CXXFLAGS = -std=c++20 -O3 -march=native -flto -Wall 
 SRC = src
 OBJ = obj
 SRCS = $(wildcard $(SRC)/*.cpp)

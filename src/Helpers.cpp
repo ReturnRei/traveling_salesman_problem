@@ -18,6 +18,9 @@ std::vector<Helpers::Option> Helpers::options;
 
 void Helpers::initializeOptions() {
     options = {
+        /*
+        Best I could come up with in cpp so that I could use pointers as a POC for the tests and to have a menu that allows both functions with input and without.
+        */
         {"Display matrix", &Helpers::displayMatrix},
         {"Single threaded bruteforce solver", [](){TspSolver::naive_bruteforce(nullptr);} },
         {"Multithreaded bruteforce solver", [](){TspSolver::naive_bruteforce_multithreaded(nullptr);}},
