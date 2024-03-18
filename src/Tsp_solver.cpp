@@ -136,7 +136,7 @@ void TspSolver::naive_bruteforce_multithreaded(int* resultPtr) {
 }
 
 void TspSolver::dynamic_solver(int* resultPtr) {
-    std::lock_guard<std::mutex> lock(coutMutex);
+    std::lock_guard<std::mutex> lock(coutMutex); //Doubt about this one
 
     if (Helpers::graph.empty() || Helpers::graph[0].empty()) {
         std::cerr << "Graph is empty or not properly loaded.\n";
