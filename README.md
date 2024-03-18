@@ -38,6 +38,7 @@ Didn't implement these..
 - [x] implement dynamic programming
 - [ ] implement approximation algorithms
 
+
 ### Resources
 Forgot to include everything but these were really useful
 https://cse442-17f.github.io/Traveling-Salesman-Algorithms/
