@@ -38,17 +38,21 @@ jobs:
         name: Traveling_salesman_problem
         path: ./traveling_salesman_problem_Linux_x86_64
 
+    - name: Set up date for tag
+      id: date
+      run: echo "DATE=$(date +'%Y.%m.%d.%H.%M.%S')" >> $GITHUB_ENV
+
     - name: Create Release
       if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-      id: create_release
       uses: actions/create-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: Latest
-        release_name: Latest
+        tag_name: ${{ env.DATE }}
+        release_name: Release-${{ env.DATE }}
         draft: false
         prerelease: false
+
 
     - name: Upload Release Asset
       if: github.event_name == 'push' && github.ref == 'refs/heads/master'
