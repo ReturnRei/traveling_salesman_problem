@@ -8,6 +8,7 @@
 #include <cmath>
 #include <filesystem>
 #include <filesystem>
+#include <string>
 #include "class_def.hpp"
 
 using std::cout;
@@ -18,8 +19,8 @@ std::vector<Helpers::Option> Helpers::options;
 void Helpers::initializeOptions() {
     options = {
         {"Display matrix", &Helpers::displayMatrix},
-        {"Single threaded bruteforce", [](){TspSolver::naive_bruteforce(nullptr);} },
-        {"Multithreaded bruteforce", [](){TspSolver::naive_bruteforce_multithreaded(nullptr);}},
+        {"Single threaded bruteforce solver", [](){TspSolver::naive_bruteforce(nullptr);} },
+        {"Multithreaded bruteforce solver", [](){TspSolver::naive_bruteforce_multithreaded(nullptr);}},
         {"Dynamic solver", [](){TspSolver::dynamic_solver(nullptr);}},
         {"Run tests", &Helpers::runTests},
         {"Chose another graph", &Helpers::promptUserToChooseGraph},
@@ -49,7 +50,7 @@ void Helpers::displayMenu() {
 
         if (options[choice].name == "Exit") {
             exitRequested = true;
-        } else {
+        } else if (options[choice].name.find("solver") != std::string::npos){
             auto start = std::chrono::high_resolution_clock::now();
             options[choice].action();
             auto stop = std::chrono::high_resolution_clock::now();
@@ -57,6 +58,10 @@ void Helpers::displayMenu() {
             auto duration = std::chrono::duration_cast<std::chrono::seconds>(stop - start);
             cout << "Execution time: " << formatTime(duration) << "\n";
         }
+        else {
+            options[choice].action();
+            }
+
     }
 }
 
@@ -139,7 +144,6 @@ void Helpers::promptUserToChooseGraph() {
     }
 
     std::string selectedFile = directoryPath + "/" + files[choice - 1];
-    //std::cout << selectedFile << "\n";
     Helpers::graph = Helpers::loadGraph(selectedFile);
 }
 
