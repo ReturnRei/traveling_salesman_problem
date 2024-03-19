@@ -40,7 +40,7 @@ Didn't implement these..
 Forgot to include everything but these were really useful
 https://cse442-17f.github.io/Traveling-Salesman-Algorithms/
 
-Results for knowns tsp
+Results for known tsps
 http://comopt.ifi.uni-heidelberg.de/software/TSPLIB95/STSP.html
 
 Wiki of course
