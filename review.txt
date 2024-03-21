@@ -1,0 +1,20 @@
+Very complete solution (from data validation to multithreading to testing)
+
+Take time to fully understand the code you write (I'm thinking about the bitewise operators),
+you are responsible of the code you produce. It's okay if it desn't work but it's not if you don't know why it works.
+Most of the rest is going to seem obvious.
+
+There is a real effort in organizing your code.
+It looks like something that can become very well structured with not that much from where it is
+Things are already clear.
+Check includes and using namespace syntax.
+
+Also it was not asked but I see a Makefile. It's a good thing to do in many cases and a very powerfull tool.
+I'm not convinced about the choice here thought and thing it's an overkill (I'm not considering it in the review).
+g++ main.cpp tests.cpp Helpers.cpp Tsp_solver.cpp (with /src) should work and should be enough.
+
+Just take this extra little extra time to double check what your code does, what your objects are,
+if your functions do what thay pretend to do and if that's the case, is it the responsibility of the class they are in to do it.
+
+
+17/20
