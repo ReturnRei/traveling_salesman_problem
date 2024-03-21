@@ -171,7 +171,7 @@ void TspSolver::dynamic_solver(int* resultPtr) {
         for (size_t city = 0; city < numCities; ++city) {
             if (!visited[city] && !(mask & (1 << city))) {
                 // Are we really doing this here?
-                // 1 << city literally means "take 1 in binary and shift it left 13 times to the left"
+                // 1 << city literally means "take 1 in binary and shift it city times to the left"
                 // So yes, it makes 2^city (the absurd number of permutations) but...is this your logic?
                 // Isn't it more readable to say std::pow(2, city) ?
                 // Also & means bitewise AND (1 & 1 is 1, 1 & 0 is 0, 0 & 1 is 0, and 0 & 0 is 0)
