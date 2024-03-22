@@ -13,8 +13,11 @@
 #include <cmath>
 #include "class_def.hpp"
 // We ended up including the entire world here, remove useless imports later 
-
-using std::cout;
+// Now you know that those comments and the world we included will live here for years, people will not not remove it and no one will never know why it's here.
+using std::cout; // There is no reason to declare that here
+// (again I know it's in one of the exemples, my bad)
+// Declare using namespace std; to get all the names that are declared in std
+// directly available (no need to write std:: for each function)
 using std::format;
 
 std::mutex TspSolver::coutMutex;
@@ -23,6 +26,7 @@ std::vector<int> TspSolver::minPath;
 std::mutex TspSolver::minPathMutex;
 
 void TspSolver::naive_bruteforce(int* resultPtr) {
+    // That could go with the MatrixValidator (or in the Graph class, close by the validate function)
     if (Helpers::graph.empty() || Helpers::graph[0].empty()) {
         std::cerr << "Graph is empty or not properly loaded.\n";
     }
@@ -61,6 +65,7 @@ void TspSolver::naive_bruteforce(int* resultPtr) {
 
 
 void TspSolver::naive_bruteforce_multithreaded(int* resultPtr) {
+    // This look like another Graph::validate_size function or somehting
     if (Helpers::graph[0].size() > 15) {
         std::cout << "Cowardly refusing to compute for a day, use size < 16 or use the dynamic approach\n";
         return;
@@ -69,6 +74,7 @@ void TspSolver::naive_bruteforce_multithreaded(int* resultPtr) {
     std::vector<int> cities(numCities);
     std::iota(cities.begin(), cities.end(), 0);
 
+    // ::getThreads()
     const size_t numThreads = std::thread::hardware_concurrency() - 2;
     std::cout << "Running with threads n: " << numThreads << std::endl;
     std::vector<std::thread> threads;
@@ -133,6 +139,10 @@ void TspSolver::naive_bruteforce_multithreaded(int* resultPtr) {
             if (resultPtr != nullptr) {
         *resultPtr = minDistance;
     }
+    // Multithreading is hard. Keep exploring, make tests passing memory adresses
+    // from a thread to another ecc.
+    // Here you would gain a lot of clarity by splitting your code
+    // into smaller functions.
 }
 
 void TspSolver::dynamic_solver(int* resultPtr) {
@@ -160,6 +170,12 @@ void TspSolver::dynamic_solver(int* resultPtr) {
         int ans = std::numeric_limits<int>::max();
         for (size_t city = 0; city < numCities; ++city) {
             if (!visited[city] && !(mask & (1 << city))) {
+                // Are we really doing this here?
+                // 1 << city literally means "take 1 in binary and shift it city times to the left"
+                // So yes, it makes 2^city (the absurd number of permutations) but...is this your logic?
+                // Isn't it more readable to say std::pow(2, city) ?
+                // Also & means bitewise AND (1 & 1 is 1, 1 & 0 is 0, 0 & 1 is 0, and 0 & 0 is 0)
+                // It might work, you might understand why it works, I might do too..but.. who wants to debug this the day it stops working?
                 visited[city] = true;
                 int newAns = Helpers::graph[pos][city] + tsp(city, mask | (1 << city));
                 if (newAns < ans) {

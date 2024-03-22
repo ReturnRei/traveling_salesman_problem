@@ -13,10 +13,23 @@
 
 using std::cout;
 using std::format;
+// Maybe I wasn't clear here
+// You can just declare using namespace std; (not std::format)
+// It will make all the declarations that are in the std namespace globals for this file
+// So not only count and format but all the one in std::
+// That comes with tradeofs as it will shadow your definitions that have same
+// name as existing functions in std (assuming you declared a function named format or count or any name that is in std)
+// For this reason we prefer not use it in headers file (here it's fine) so we don't
+// shadow everyone's namespaces when they import our headers.
 
 std::vector<Helpers::Option> Helpers::options;
 
 void Helpers::initializeOptions() {
+    // "Helper", "Manager", "Wrapper" ecc are very generic names
+    // We see them everywhere (naming things is just hard...) but we can try to find better names here,
+    // why not just Menu ? With just 2 methods : initialize() and display()
+    // Then other classes for graphs, display ecc
+    // Defining stricts responsibilities of your classes will help you stay organized
     options = {
         /*
         Best I could come up with in cpp so that I could use pointers as a POC for the tests and to have a menu that allows both functions with input and without.
@@ -40,12 +53,18 @@ void Helpers::displayMenu() {
         cout << "Please select an option:\n";
         for (size_t i = 0; i < options.size(); ++i) {
             cout << i + 1 << ": " << options[i].name << "\n";
+            // Go for the methods if you don't have any reason not to (options.at(i))
         }
 
         int choice;
         std::cin >> choice;
         --choice;
-
+        // So here the code is doing something that the function did not
+        // say at all she was doing. The function pretends to display the menu.
+        // It should only display the menu or be called otherwise.
+        // I think another method for the Menu class would make sense
+        // Letting us with Menu::initialize, Menu::display and Menu::select
+        // Starting to look like a typical View component.
         if (choice < 0 || choice >= static_cast<int>(options.size())) {
             cout << "Invalid choice. Please try again.\n";
             continue;
@@ -69,6 +88,9 @@ void Helpers::displayMenu() {
 }
 
 std::string Helpers::formatTime(std::chrono::duration<long, std::ratio<1l, 1l>> duration) {
+    // It is very hard to find the most appropriated place for a function like this
+    // usually many parts of the app will want to use it.
+    // It often ends up, in fact, in an Helper class or package.
     auto hours = duration.count() / 3600;
     auto minutes = (duration.count() % 3600) / 60;
     auto seconds = duration.count() % 60;
@@ -123,6 +145,9 @@ std::vector<std::string> Helpers::listTxtFiles(const std::string& directoryPath)
 }
 
 void Helpers::promptUserToChooseGraph() {
+    // Could also fill in the Menu class (kind of view router)
+    // Sligtly more sophisticated approach would be the Menu
+    // class having views as attributes (including this one)
     const std::string directoryPath = "./graphs";
     auto files = Helpers::listTxtFiles(directoryPath);
 
@@ -155,6 +180,7 @@ void Helpers::setMemoryGraph(const std::vector<std::vector<int>>& newGraph) {
 }
 
 void Helpers::displayMatrix() {
+    // Another "view" attribute of the menu
     cout << "\nGraph dimensions: " << graph.size() << "x" << graph[0].size() << "\n";
     for (const auto& row : graph) { 
         for (int value : row) {
@@ -166,6 +192,11 @@ void Helpers::displayMatrix() {
 }
 
 void Helpers::validateMatrix(const std::vector<std::vector<int>>& matrix) {
+    // You will see in many places literally Validator classes
+    // Here a MatrixValidator class could have been by itself
+    // Another approach could be to wrap the matrix object in a Graph
+    // class. This would be a Graph method, giving us with the very convenient
+    // void Graph::validate() {same logic with the protected matrix}
     size_t numRows = matrix.size();
 
     if (numRows == 0) {
@@ -183,4 +214,9 @@ void Helpers::validateMatrix(const std::vector<std::vector<int>>& matrix) {
             throw std::invalid_argument("Diagonal is not made of zeroes.");
         }
     }
+    // I think you can have the same "diagonal" logic with all the numbers
+    // should be something like assert(matrix[i][j] == matrix [j][i])
+    // as dist A -> B == dist B -> A
+
+    // Good job thinking about input data validation anyway.
 }
